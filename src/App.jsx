@@ -100,9 +100,6 @@ function App() {
   }
 
 
-  function pushIdx(user) {
-    setIdx(user)
-  }
 
   function editStatus(id) {
     let newUsers = users.map((el) => {
@@ -113,9 +110,12 @@ function App() {
     });
 
     setUsers(newUsers);
+    
   }
-
-
+  function Edit(user) {
+    
+   
+  }
   return (
     <>
       <div className=" p-8 bg-gray-50 min-h-screen">
@@ -128,7 +128,7 @@ function App() {
             <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Avatar..." name="avatar" />
             <button type="submit" className="ml-[130px] mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-[100px]  rounded-[10px] text-white">Add New User</button>
           </form>
-          <form className="flex-col flex gap-[5px] justify-center" >
+          <form  className="flex-col flex gap-[5px] justify-center" >
             <input className="w-[400px] h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Name..." name="name" />
             <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Email..." name="email" />
             <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="City..." name="city" />
@@ -183,7 +183,7 @@ function App() {
 
                   <td className="px-6 py-4 text-right flex justify-end items-center gap-[10px]">
                     <input checked={user.status} onChange={() => editStatus(user.id)} className="cursor-pointer rounded-[40px] w-[20px] h-[20px] border-2 mr-[10px]" type="checkbox" />
-                    <button className="text-blue-500 cursor-pointer">Edit</button>
+                    <button onClick={()=>Edit(user)} className="text-blue-500 cursor-pointer">Edit</button>
                     <button onClick={() => deleteUser(user.id)} className="text-red-500 ml-3 cursor-pointer">Delete</button>
                   </td>
                 </tr>
