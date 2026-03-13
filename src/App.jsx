@@ -76,6 +76,16 @@ function App() {
     },
   ]);
 
+  let [inpname, setInpname] = useState("")
+  let [inpemail, setInpemail] = useState("")
+  let [inpcity, setInpcity] = useState("")
+  let [inpphone, setInpphone] = useState("")
+  let [inpavatar, setInpavatar] = useState("")
+  let [inpstatus, setInpstatus] = useState("")
+  let [idx, setidx] = useState(null)
+
+
+
   function deleteUser(id) {
     let newUsers = users.filter((el) => el.id !== id);
     setUsers(newUsers);
@@ -90,6 +100,7 @@ function App() {
       city: event.target["city"].value,
       phone: event.target["phone"].value,
       avatar: event.target["avatar"].value,
+      status: false
     }
     setUsers([...users, obj])
     event.target["name"].value = ""
@@ -100,6 +111,28 @@ function App() {
   }
 
 
+  function editUser(user) {
+    setInpname(user.name)
+    setInpemail(user.email)
+    setInpcity(user.city)
+    setInpphone(user.phone)
+    setInpavatar(user.avatar)
+    setInpstatus(user.status)
+    setidx(user.id)
+  }
+
+  let hendelEdit = (event) => {
+    event.preventDefault()
+    let editUsers = {
+      name: inpname,
+      email: inpemail,
+      city: inpcity,
+      phone: inpphone,
+      avatar: inpavatar,
+      status: true
+    }
+    setUsers(users.map((el) => { el.id == idx ? editUsers : el }))
+  }
 
   function editStatus(id) {
     let newUsers = users.map((el) => {
@@ -110,31 +143,31 @@ function App() {
     });
 
     setUsers(newUsers);
-    
+
   }
   function Edit(user) {
-    
-   
+
+
   }
   return (
     <>
       <div className=" p-8 bg-gray-50 min-h-screen">
-        <div className="flex justify-center gap-[300px] ">
-          <form className="flex-col flex gap-[5px] justify-center " onSubmit={hendelSubmit}>
-            <input className="w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Name..." name="name" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Email..." name="email" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="City..." name="city" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Phone..." name="phone" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Avatar..." name="avatar" />
-            <button type="submit" className="ml-[130px] mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-[100px]  rounded-[10px] text-white">Add New User</button>
+        <div className="flex justify-center gap-75 ">
+          <form className="flex-col flex gap-1.25 justify-center " onSubmit={hendelSubmit}>
+            <input className="w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Name..." name="name" />
+            <input className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Email..." name="email" />
+            <input className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="City..." name="city" />
+            <input className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Phone..." name="phone" />
+            <input className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Avatar..." name="avatar" />
+            <button type="submit" className="ml-32.5 mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-25  rounded-[10px] text-white">Add New User</button>
           </form>
-          <form  className="flex-col flex gap-[5px] justify-center" >
-            <input className="w-[400px] h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Name..." name="name" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Email..." name="email" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="City..." name="city" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Phone..." name="phone" />
-            <input className="mt-[14px] w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-[5px]" type="text" placeholder="Avatar..." name="avatar" />
-            <button type="submit" className="ml-[130px] mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-[100px]  rounded-[10px] text-white">Edit User</button>
+          <form onSubmit={hendelEdit} className="flex-col flex gap-1.25 justify-center" >
+            <input onChange={(e) => setInpname(e.target.value)} value={inpname} className="w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Name..." name="name" />
+            <input onChange={(e) => setInpemail(e.target.value)} value={inpemail} className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Email..." name="email" />
+            <input onChange={(e) => setInpcity(e.target.value)} value={inpcity} className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="City..." name="city" />
+            <input onChange={(e) => setInpphone(e.target.value)} value={inpphone} className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Phone..." name="phone" />
+            <input onChange={(e) => setInpavatar(e.target.value)} value={inpavatar} className="mt-3.5 w-100 h-10 border-gray-500 border-2 rounded-[5px] pl-1.25" type="text" placeholder="Avatar..." name="avatar" />
+            <button type="submit" className="ml-32.5 mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-25  rounded-[10px] text-white">Edit User</button>
           </form>
         </div>
         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-xl overflow-hidden ">
@@ -181,9 +214,9 @@ function App() {
                     {user.phone}
                   </td>
 
-                  <td className="px-6 py-4 text-right flex justify-end items-center gap-[10px]">
-                    <input checked={user.status} onChange={() => editStatus(user.id)} className="cursor-pointer rounded-[40px] w-[20px] h-[20px] border-2 mr-[10px]" type="checkbox" />
-                    <button onClick={()=>Edit(user)} className="text-blue-500 cursor-pointer">Edit</button>
+                  <td className="px-6 py-4 text-right flex justify-end items-center gap-2.5">
+                    <input checked={user.status} onChange={() => editStatus(user.id)} className="cursor-pointer rounded-10 w-5 h-5 border-2 mr-2.5" type="checkbox" />
+                    <button onClick={() => editUser(user)} className="text-blue-500 cursor-pointer">Edit</button>
                     <button onClick={() => deleteUser(user.id)} className="text-red-500 ml-3 cursor-pointer">Delete</button>
                   </td>
                 </tr>
