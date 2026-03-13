@@ -83,7 +83,6 @@ const App = () => {
           <input type="text" name='age' value={ageEdit} className='border' onChange={(e) => setAgeEdit(e.target.value)} />
           <button type='submit'>sibmit</button>
         </form>
-
         <input type="search" className='m-10 border' value={serch} onChange={(e) => setserch(e.target.value)} />
         <select onChange={(e) => setSelect(e.target.value)}>
           <option value="">All</option>
