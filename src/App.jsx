@@ -84,7 +84,8 @@ function App() {
   let [inpstatus, setInpstatus] = useState("")
   let [idx, setidx] = useState(null)
 
-
+  let [select, setSelect] = useState("")
+  let [search, setSearch] = useState("")
 
   function deleteUser(id) {
     let newUsers = users.filter((el) => el.id !== id);
@@ -100,7 +101,6 @@ function App() {
       city: event.target["city"].value,
       phone: event.target["phone"].value,
       avatar: event.target["avatar"].value,
-      status: false
     }
     setUsers([...users, obj])
     event.target["name"].value = ""
@@ -109,7 +109,6 @@ function App() {
     event.target["phone"].value = ""
     event.target["avatar"].value = ""
   }
-
 
   function editUser(user) {
     setInpname(user.name)
@@ -124,14 +123,20 @@ function App() {
   let hendelEdit = (event) => {
     event.preventDefault()
     let editUsers = {
-      name: inpname,
-      email: inpemail,
-      city: inpcity,
-      phone: inpphone,
-      avatar: inpavatar,
+      id: idx,
+      name: event.target["name"].value,
+      email: event.target["email"].value,
+      city: event.target["city"].value,
+      phone: event.target["phone"].value,
+      avatar: event.target["avatar"].value,
       status: true
     }
-    setUsers(users.map((el) => { el.id == idx ? editUsers : el }))
+    setUsers(users.map((el) => el.id == idx ? editUsers : el))
+    setInpname("")
+    setInpemail("")
+    setInpcity("")
+    setInpphone("")
+    setInpavatar("")
   }
 
   function editStatus(id) {
@@ -141,14 +146,9 @@ function App() {
       }
       return el;
     });
-
     setUsers(newUsers);
-
   }
-  function Edit(user) {
 
-
-  }
   return (
     <>
       <div className=" p-8 bg-gray-50 min-h-screen">
@@ -170,6 +170,14 @@ function App() {
             <button type="submit" className="ml-32.5 mt-5 w-30 bg-blue-500 border-2 cursor-pointer border-blue-700 mb-25  rounded-[10px] text-white">Edit User</button>
           </form>
         </div>
+        <div className="flex ml-40 gap-7.5 mb-10" >
+          <select className="border w-37.5 rounded-[10px] pl-1.5 h-10 " onChange={(e) => setSelect(e.target.value)}>
+            <option value="">All Status</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+          <input type="text" placeholder="Search By Name" value={search} onChange={(e) => setSearch(e.target.value)} className="border w-47.5 rounded-[10px] pl-1.5 h-10" />
+        </div>
         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-xl overflow-hidden ">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -182,45 +190,47 @@ function App() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {users.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 transition-colors group">
-                  <td className="px-6 py-4 flex items-center gap-3">
-                    <img
-                      src={user.avatar}
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full object-cover shadow-sm"
-                    />
-                    <div>
-                      <p className="font-bold text-gray-800">{user.name}</p>
-                      <p className="text-xs text-gray-500">{user.email}</p>
-                    </div>
-                  </td>
+              {users.filter((e) => e.name.toLowerCase().includes(search.trim().toLowerCase()))
+                .filter((user) => select == "true" ? user.status : select == "false" ? !user.status : user)
+                .map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50 transition-colors group">
+                    <td className="px-6 py-4 flex items-center gap-3">
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-10 h-10 rounded-full object-cover shadow-sm"
+                      />
+                      <div>
+                        <p className="font-bold text-gray-800">{user.name}</p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                      </div>
+                    </td>
 
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {user.city}
-                  </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {user.city}
+                    </td>
 
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-3 py-1 rounded text-[10px] font-bold uppercase ${user.status == true
-                        ? "bg-green-600 text-white"
-                        : "bg-slate-400 text-white"}`}
-                    >
-                      {user.status ? "Active" : "Inactive"}
-                    </span>
-                  </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`px-3 py-1 rounded text-[10px] font-bold uppercase ${user.status == true
+                          ? "bg-green-600 text-white"
+                          : "bg-slate-400 text-white"}`}
+                      >
+                        {user.status ? "Active" : "Inactive"}
+                      </span>
+                    </td>
 
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-700">
-                    {user.phone}
-                  </td>
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-700">
+                      {user.phone}
+                    </td>
 
-                  <td className="px-6 py-4 text-right flex justify-end items-center gap-2.5">
-                    <input checked={user.status} onChange={() => editStatus(user.id)} className="cursor-pointer rounded-10 w-5 h-5 border-2 mr-2.5" type="checkbox" />
-                    <button onClick={() => editUser(user)} className="text-blue-500 cursor-pointer">Edit</button>
-                    <button onClick={() => deleteUser(user.id)} className="text-red-500 ml-3 cursor-pointer">Delete</button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="px-6 py-4 text-right flex justify-end items-center gap-2.5">
+                      <input checked={user.status} onChange={() => editStatus(user.id)} className="cursor-pointer rounded-10 w-5 h-5 border-2 mr-2.5" type="checkbox" />
+                      <button onClick={() => editUser(user)} className="text-blue-500 cursor-pointer">Edit</button>
+                      <button onClick={() => deleteUser(user.id)} className="text-red-500 ml-3 cursor-pointer">Delete</button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
