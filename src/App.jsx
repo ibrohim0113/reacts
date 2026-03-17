@@ -1,33 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+
 const App = () => {
-  let api = "http://localhost:3001/data"
-  let [user, setUser] = useState([])
-
-  async function getUser() {
-    try {
-      let { data } = await axios.get(api)
-      setUser(data)
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-
-  useEffect(() => {
-    getUser()
-  }, [])
-
-  return (
-    <div>
-      {user.map((el)=>{
-        <div key={}>
-          <h1>{el.name}</h1>
-          <p>{el.job}</p>
-        </div>
-      })}
-    </div>
-  )
+    return (
+        <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    height="140"
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    alt="green iguana"
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        Lizard
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        Lizards are a widespread group of squamate reptiles, with over 6,000
+                        species, ranging across all continents except Antarctica
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+            <CardActions>
+                <Button size="small" color="primary">
+                    Share
+                </Button>
+            </CardActions>
+        </Card>
+    );
 }
 
 export default App
