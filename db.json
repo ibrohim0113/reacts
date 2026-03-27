@@ -1,0 +1,16 @@
+{
+    "product": [
+        {
+            "id":"1",
+            "img": "https://mui.com/static/images/cards/contemplative-reptile.jpg",
+            "name": "Lizard",
+            "about": "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+        },
+        {
+            "id":"2",
+            "img": "https://mui.com/static/images/cards/contemplative-reptile.jpg",
+            "name": "Lizard",
+            "about": "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+        }
+    ]
+}

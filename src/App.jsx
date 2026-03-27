@@ -1,36 +1,67 @@
-import React, { useState } from 'react'
-import "./index.css"
+import React, { useEffect, useState } from 'react'
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+
+import axios from "axios"
+
 const App = () => {
-  let [cnt, setSnt] = useState(0)
-  let [value, setValue] = useState()
-  let [data, setData] = useState([cnt])
+  let api = "http://localhost:3000/product"
+  let [data, setData] = useState([])
 
-  function hendelPlus() {
-    setSnt(cnt + 1)
+  let [treger, setTreger] = useState(false)
 
-    setData([...data, cnt + 1])
+  async function getData() {
+    try {
+      let { data } = await axios.get(api)
+      setData(data)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function hendelMinus() {
-    setSnt(cnt - 1)
-
-    setData([...data, cnt - 1])
-  }
+  useEffect(() => {
+    if (treger) {
+      getData()
+    }
+    return setTreger(true)
+  }, []);
 
   return (
-    <div>
-      <h1 className=''>{cnt}</h1>
-      <button className='w-10 h-10 bg-gray-50' onClick={hendelPlus}>+</button>
-      <button className='w-10 h-10 bg-gray-50' onClick={hendelMinus}>-</button>
-
-      <input className='border-1' type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-      <h1 className='text-center'>{value}</h1>
-      <div className='flex justify-center gap-[30px] flex-wrap pl-10 pr-10'>
+    <>
+      <div className='flex'>
         {data.map((el) => {
-          return <h1 className='text-[34px]'>{el}</h1>
+          return (
+            <Card key={el.id} sx={{ maxWidth: 345 }}>
+              <CardActionArea>
+                <img style={{ height: "200px", width: "100%", objectFit: "cover" }} src={el.img} />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {el.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {el.about}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Button variant="outlined" color="error">
+                  delete
+                </Button>
+                <Button variant="outlined" size="medium">
+                  Edit
+                </Button>
+              </CardActions>
+            </Card>
+          )
         })}
+
+
       </div>
-    </div>
+    </>
   )
 }
 
